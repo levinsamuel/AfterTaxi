@@ -1,6 +1,8 @@
 
 const fetch = require('node-fetch');
 
+// 'Authorization': 'Bearer hTXciu2pC+TBy857QKeHekOFaEWxtcaU7tuGR605ZV2c7YKHNpwKmbUPbN3YSXvH0rq55qi9/COD5xlH9H8dxGoPCDGjr4WnFyCM+olqexKPs1sXfibXXKE='
+
 exports.estimate_price = function (req, res) {
 
     res.set('Access-Control-Allow-Origin', '*')
@@ -9,12 +11,14 @@ exports.estimate_price = function (req, res) {
         mode: 'no-cors',
         headers: {
           "Content-Type": "application/json",
-          "Accept": "application/json",
-          'Authorization': 'Bearer hTXciu2pC+TBy857QKeHekOFaEWxtcaU7tuGR605ZV2c7YKHNpwKmbUPbN3YSXvH0rq55qi9/COD5xlH9H8dxGoPCDGjr4WnFyCM+olqexKPs1sXfibXXKE='
+          "Accept": "application/json"
         }
     })
     .then(res2 => res2.json())
-    .then(res2 => {console.log("response:", res2); return res2})
+    .then(res2 => {
+      console.log("response:", res2);
+      return res2;
+    })
     .then(res2 => res.send(res2))
     .catch((err) => console.error('request failed', err.message));
 
