@@ -27,22 +27,13 @@ class Search extends React.Component {
     console.log('An address was submitted: ', this.state);
     event.preventDefault();
 
-    const est = fetch('https://api.lyft.com/v1/cost?start_lat=34.17&start_lng=-118.42&end_lat=34.19&end_lng=-118.46', {
-        method: 'GET',
-        mode: 'no-cors',
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-          'Authorization': 'Bearer hTXciu2pC+TBy857QKeHekOFaEWxtcaU7tuGR605ZV2c7YKHNpwKmbUPbN3YSXvH0rq55qi9/COD5xlH9H8dxGoPCDGjr4WnFyCM+olqexKPs1sXfibXXKE='
-        }
+    fetch('http://localhost:3001/priceest', {
+      method: 'GET'
     })
-    .then(response => response.json())
-    .then(est => {
-      this.setState({est: est});
-      console.log('state', this.state)
-    })
-    .catch((err) => console.error('request failed', err.message));
-
+    .then(res => res.json())
+    .then(res => this.setState({est: res}))
+    .then(res => console.log('state', this.state))
+    .catch(err => console.error(err.message));
   }
 
 
