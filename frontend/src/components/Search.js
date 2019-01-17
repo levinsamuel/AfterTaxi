@@ -1,7 +1,8 @@
 import React from 'react';
 import {Redirect} from 'react-router-dom';
-import { Button, Form, FormGroup, Label, Input, FormText, Row } from 'reactstrap';
-import PlacesAutocomplete, { geocodeByAddress, geocodeByPlaceId, getLatLng} from 'react-places-autocomplete';
+import { Button, Form, FormGroup, Label, Input, Row } from 'reactstrap';
+import PlacesAutocomplete, { geocodeByAddress, getLatLng} from 'react-places-autocomplete';
+import Result from './Result';
 
 const initialState = () => ({
   est: null,
@@ -24,6 +25,7 @@ class Search extends React.Component {
     this.handleEnSelect = this.handleEnSelect.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.clearForm = this.clearForm.bind(this);
+    this.test = this.test.bind(this);
   }
 
   handleStartChange = addressStart => {
@@ -80,7 +82,7 @@ class Search extends React.Component {
         method: 'GET'
       })
       .then(res => res.json())
-      .then(res => this.setState({est: res}))
+      .then(res => this.setState({est: res.cost_estimates}))
       .then(res => console.log('state', this.state))
       .catch(err => console.error(err.message));
     }
@@ -110,7 +112,7 @@ class Search extends React.Component {
             >
              {(props) => (
                 <FormGroup row>
-                  <Label for="startad">Start Address:</Label>
+                  <Label for="startad">Start Address</Label>
                   <PlacesInput {...props} placeholder='Start' name='startad' id='startad' />
                 </FormGroup>
               )}
@@ -122,7 +124,7 @@ class Search extends React.Component {
             >
               {(props) => (
                 <FormGroup row>
-                  <Label for="endad">End Address:</Label>
+                  <Label for="endad">End Address</Label>
                   <PlacesInput {...props} name="endad" id="endad" placeholder="End" />
                 </FormGroup>
               )}
@@ -132,6 +134,8 @@ class Search extends React.Component {
               <Button className="ml-1" onClick={this.clearForm}>Clear</Button>
             </FormGroup>
           </Form>
+
+          <Result estimates={this.state.est} />
         </div>
       )
     } else {
@@ -139,6 +143,110 @@ class Search extends React.Component {
         <Redirect to='/home' />
       )
     }
+  }
+
+  // use with this: <Button className="ml-1" onClick={this.test}>Test</Button>
+  test() {
+    this.setState({
+      est: [
+          {
+              "currency": "USD",
+              "ride_type": "lyft_line",
+              "display_name": "Shared",
+              "primetime_percentage": "0%",
+              "primetime_confirmation_token": null,
+              "cost_token": null,
+              "price_quote_id": "EJ6ThMTUnq2BERoYemVybzoxMjI1NzQxMDE0MTc0NTk5NTgy::Cgdjb3VyaWVy",
+              "price_group_id": "EJ6ThMTUnq2BERoYemVybzoxMjI1NzQxMDE0MTc0NTk5NTgy",
+              "is_valid_estimate": true,
+              "estimated_duration_seconds": 705,
+              "estimated_distance_miles": 3.79,
+              "estimated_cost_cents_min": 400,
+              "estimated_cost_cents_max": 600,
+              "can_request_ride": true
+          },
+          {
+              "currency": "USD",
+              "ride_type": "lyft",
+              "display_name": "Lyft",
+              "primetime_percentage": "0%",
+              "primetime_confirmation_token": null,
+              "cost_token": null,
+              "price_quote_id": "EJ6ThMTUnq2BERoYemVybzoxMjI1NzQxMDE0MTc0NTk5NTgy::CghzdGFuZGFyZA==",
+              "price_group_id": "EJ6ThMTUnq2BERoYemVybzoxMjI1NzQxMDE0MTc0NTk5NTgy",
+              "is_valid_estimate": true,
+              "estimated_duration_seconds": 705,
+              "estimated_distance_miles": 3.79,
+              "estimated_cost_cents_min": 800,
+              "estimated_cost_cents_max": 1000,
+              "can_request_ride": true
+          },
+          {
+              "currency": "USD",
+              "ride_type": "lyft_plus",
+              "display_name": "Lyft XL",
+              "primetime_percentage": "0%",
+              "primetime_confirmation_token": null,
+              "cost_token": null,
+              "price_quote_id": "EJ6ThMTUnq2BERoYemVybzoxMjI1NzQxMDE0MTc0NTk5NTgy::CgRwbHVz",
+              "price_group_id": "EJ6ThMTUnq2BERoYemVybzoxMjI1NzQxMDE0MTc0NTk5NTgy",
+              "is_valid_estimate": true,
+              "estimated_duration_seconds": 705,
+              "estimated_distance_miles": 3.79,
+              "estimated_cost_cents_min": 1200,
+              "estimated_cost_cents_max": 1500,
+              "can_request_ride": true
+          },
+          {
+              "currency": "USD",
+              "ride_type": "lyft_premier",
+              "display_name": "Lux",
+              "primetime_percentage": "0%",
+              "primetime_confirmation_token": null,
+              "cost_token": null,
+              "price_quote_id": "EJ6ThMTUnq2BERoYemVybzoxMjI1NzQxMDE0MTc0NTk5NTgy::CgdwcmVtaXVt",
+              "price_group_id": "EJ6ThMTUnq2BERoYemVybzoxMjI1NzQxMDE0MTc0NTk5NTgy",
+              "is_valid_estimate": true,
+              "estimated_duration_seconds": 705,
+              "estimated_distance_miles": 3.79,
+              "estimated_cost_cents_min": 2100,
+              "estimated_cost_cents_max": 2400,
+              "can_request_ride": true
+          },
+          {
+              "currency": "USD",
+              "ride_type": "lyft_lux",
+              "display_name": "Lux Black",
+              "primetime_percentage": "0%",
+              "primetime_confirmation_token": null,
+              "cost_token": null,
+              "price_quote_id": "EJ6ThMTUnq2BERoYemVybzoxMjI1NzQxMDE0MTc0NTk5NTgy::CgNsdXg=",
+              "price_group_id": "EJ6ThMTUnq2BERoYemVybzoxMjI1NzQxMDE0MTc0NTk5NTgy",
+              "is_valid_estimate": true,
+              "estimated_duration_seconds": 705,
+              "estimated_distance_miles": 3.79,
+              "estimated_cost_cents_min": 2800,
+              "estimated_cost_cents_max": 3200,
+              "can_request_ride": true
+          },
+          {
+              "currency": "USD",
+              "ride_type": "lyft_luxsuv",
+              "display_name": "Lux Black XL",
+              "primetime_percentage": "0%",
+              "primetime_confirmation_token": null,
+              "cost_token": null,
+              "price_quote_id": "EJ6ThMTUnq2BERoYemVybzoxMjI1NzQxMDE0MTc0NTk5NTgy::CgZsdXhzdXY=",
+              "price_group_id": "EJ6ThMTUnq2BERoYemVybzoxMjI1NzQxMDE0MTc0NTk5NTgy",
+              "is_valid_estimate": true,
+              "estimated_duration_seconds": 705,
+              "estimated_distance_miles": 3.79,
+              "estimated_cost_cents_min": 3600,
+              "estimated_cost_cents_max": 4000,
+              "can_request_ride": true
+          }
+      ]
+    })
   }
 }
 // <Input type="text" name="startad" id="startad" placeholder="Start"

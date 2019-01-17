@@ -1,6 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import {Switch, Route, Redirect, withRouter} from 'react-router-dom';
+import {Switch, Route, Redirect} from 'react-router-dom';
 import Login from './Login';
 import Header from './Header';
 import Search from './Search';

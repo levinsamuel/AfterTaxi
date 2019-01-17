@@ -1,8 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Button, Form, FormGroup, Label, Input, FormText, Row } from 'reactstrap';
-import {Redirect, Route} from 'react-router-dom';
-import Search from './Search';
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import {Redirect} from 'react-router-dom';
 
 class Login extends React.Component {
 
@@ -13,7 +11,6 @@ class Login extends React.Component {
       password: null,
       redirect: false
     }
-
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);

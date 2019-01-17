@@ -7,6 +7,7 @@ exports.estimate_price = function (req, res) {
 
     var {start_lat, start_lng, end_lat, end_lng} = req.query;
     res.set('Access-Control-Allow-Origin', '*')
+    
     const est = fetch('https://api.lyft.com/v1/cost?' +
           `start_lat=${start_lat}&start_lng=${start_lng}&` +
           `end_lat=${end_lat}&end_lng=${end_lng}`, {
