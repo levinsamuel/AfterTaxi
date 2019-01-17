@@ -14,6 +14,24 @@ This installs the base dependencies, then goes and installs the dependencies for
 
 This runs `npm start` on the front and backend portions respectively. You can also run `npm start` on each project independently.
 
+## Logging in
+
+There is no enforcement of credentials. Just enter any non-empty values and it should work.
+
+## Some questions of interest
+
+### _1. Had you had more time what would you have changed in your code?_
+
+I would also have embedded a map so that the user could pick out their intended route on the map, or seen it displayed on the map after the enter the locations. I would linkify the prices so that the user could actually book the advertised rides after seeing the price estimates. I would have worked out how to parameterize the tests. I would use Redux in the React app. I would store rides by the user. I'll stop there because I could keep going ad infinitum.
+
+### _2. What would you have changed in the UI you created?_
+
+I can tweak the UI pretty much indefinitely, so I would certainly have improved a lot of things: more stylish, colors, make the table (dis)appearing less jarring, fancy logos, some fixes to make it more mobile-responsive. There would need to be other pages, like an about page. I would implement proper security with a user database and such.
+
+### _3. What are the problems that you can foresee if the company needs to scale?_
+
+Firstly, I'm relying on two external API's: Lyft's price estimator and a Google Places API for getting geo-location. Right now every request hits both of those, possibly multiple times. I would have to make sure those will accept the larger request volume. I know Google's is directed to your own personal account, so that one we could scale on their cloud, but I don't know about Lyft's, if there's a limit of requests from a given client. Of course there is the typical scaling requirements: can the hosting for the front-end app support the user load, can the backend support the request load, bandwidth, concurrent users, storage (there's no storage now but if this was a real app there would be.) There should be standard tools to deal with this, but of course it pays to think about it ahead of time.
+
 # Backend (/backend)
 
 This is a simple Node.js Express server. There is one API available, at /priceest, taking parameters `[start_lat, start_lng, end_lat, end_lng]`. The default port is 3001 and I didn't bother to make it configurable. You can change it in `/server.js` if you have to.
