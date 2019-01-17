@@ -5,8 +5,11 @@ const fetch = require('node-fetch');
 
 exports.estimate_price = function (req, res) {
 
+    var {start_lat, start_lng, end_lat, end_lng} = req.query;
     res.set('Access-Control-Allow-Origin', '*')
-    const est = fetch('https://api.lyft.com/v1/cost?start_lat=34.17&start_lng=-118.42&end_lat=34.19&end_lng=-118.46', {
+    const est = fetch('https://api.lyft.com/v1/cost?' +
+          `start_lat=${start_lat}&start_lng=${start_lng}&` +
+          `end_lat=${end_lat}&end_lng=${end_lng}`, {
         method: 'GET',
         mode: 'no-cors',
         headers: {

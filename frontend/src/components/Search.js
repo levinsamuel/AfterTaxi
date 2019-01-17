@@ -3,40 +3,64 @@ import {Redirect} from 'react-router-dom';
 import { Button, Form, FormGroup, Label, Input, FormText, Row } from 'reactstrap';
 import PlacesAutocomplete, { geocodeByAddress, geocodeByPlaceId, getLatLng} from 'react-places-autocomplete';
 
+const initialState = () => ({
+  est: null,
+  addressStart: '',
+  latStart: null,
+  lngStart: null,
+  addressEnd: '',
+  latEnd: null,
+  lngEnd: null
+});
+
 class Search extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      start_lat: 34.17,
-      start_lng: -118.42,
-      end_lat: 34.19,
-      end_lng: -118.46,
-      est: null,
-      address: ''
-    }
-    this.handleChange = this.handleChange.bind(this);
+    this.state = initialState();
+    this.handleStartChange = this.handleStartChange.bind(this);
+    this.handleStSelect = this.handleStSelect.bind(this);
+    this.handleEndChange = this.handleEndChange.bind(this);
+    this.handleEnSelect = this.handleEnSelect.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleSelect = this.handleSelect.bind(this);
-    this.handleMapChange = this.handleMapChange.bind(this);
+    this.clearForm = this.clearForm.bind(this);
   }
 
-
-  handleChange(event) {
-    // console.log(event.target.value, event.target.name)
-    this.setState({[event.target.name]: event.target.value});
-  }
-
-  handleMapChange = address => {
-    this.setState({ address });
+  handleStartChange = addressStart => {
+    this.setState({ addressStart });
     console.log(this.state)
   };
 
-  handleSelect = address => {
-    console.log("selected this one", address);
-    geocodeByAddress(address)
+  handleEndChange = addressEnd => {
+    this.setState({ addressEnd });
+    console.log(this.state)
+  };
+
+  handleStSelect = addressStart => {
+    console.log("selected this one", addressStart);
+    geocodeByAddress(addressStart)
       .then(results => getLatLng(results[0]))
-      .then(latLng => console.log('Success', latLng))
+      .then(latLng =>
+        this.setState({
+          latStart: latLng.lat,
+          lngStart: latLng.lng,
+          addressStart
+        })
+      )
+      .catch(error => console.error('Error', error));
+  };
+
+  handleEnSelect = addressEnd => {
+    console.log("selected this one", addressEnd);
+    geocodeByAddress(addressEnd)
+      .then(results => getLatLng(results[0]))
+      .then(latLng =>
+        this.setState({
+          latEnd: latLng.lat,
+          lngEnd: latLng.lng,
+          addressEnd
+        })
+      )
       .catch(error => console.error('Error', error));
   };
 
@@ -44,15 +68,27 @@ class Search extends React.Component {
     console.log('An address was submitted: ', this.state);
     event.preventDefault();
 
-    fetch('http://localhost:3001/priceest', {
-      method: 'GET'
-    })
-    .then(res => res.json())
-    .then(res => this.setState({est: res}))
-    .then(res => console.log('state', this.state))
-    .catch(err => console.error(err.message));
+    var {latStart, lngStart, latEnd, lngEnd} = this.state;
+
+    if (latStart == null || lngStart == null || latEnd == null || lngEnd == null) {
+      alert("Could not get coordinates for one or more addresses");
+    } else {
+
+      const qstring = `start_lat=${latStart}&start_lng=${lngStart}&` +
+          `end_lat=${latEnd}&end_lng=${lngEnd}`;
+      fetch('http://localhost:3001/priceest?' + qstring, {
+        method: 'GET'
+      })
+      .then(res => res.json())
+      .then(res => this.setState({est: res}))
+      .then(res => console.log('state', this.state))
+      .catch(err => console.error(err.message));
+    }
   }
 
+  clearForm() {
+    this.setState(initialState());
+  }
 
   render () {
 
@@ -66,28 +102,36 @@ class Search extends React.Component {
             <h3> Hi {passedState.user} </h3>
           </Row>
 
-          <PlacesAutocomplete
-            value={this.state.address}
-            onChange={this.handleMapChange}
-            onSelect={this.handleSelect}
-          >
-           {(props) => (
-            <Form onSubmit={this.handleSubmit}>
-              <FormGroup row>
-                <Label for="startad">Start Address:</Label>
-                <PlacesInput {...props} placeholder='Start' name='startad' id='startad' />
-              </FormGroup>
-              <FormGroup row>
-                <Label for="endad">End Address:</Label>
-                <Input type="text" name="endad" id="endad" placeholder="End"
-                    onChange={this.handleChange}/>
-              </FormGroup>
-              <FormGroup row>
-                <Button>Get Estimate</Button>
-              </FormGroup>
-            </Form>
-          )}
-          </PlacesAutocomplete>
+          <Form onSubmit={this.handleSubmit}>
+            <PlacesAutocomplete
+              value={this.state.addressStart}
+              onChange={this.handleStartChange}
+              onSelect={this.handleStSelect}
+            >
+             {(props) => (
+                <FormGroup row>
+                  <Label for="startad">Start Address:</Label>
+                  <PlacesInput {...props} placeholder='Start' name='startad' id='startad' />
+                </FormGroup>
+              )}
+            </PlacesAutocomplete>
+            <PlacesAutocomplete
+              value={this.state.addressEnd}
+              onChange={this.handleEndChange}
+              onSelect={this.handleEnSelect}
+            >
+              {(props) => (
+                <FormGroup row>
+                  <Label for="endad">End Address:</Label>
+                  <PlacesInput {...props} name="endad" id="endad" placeholder="End" />
+                </FormGroup>
+              )}
+            </PlacesAutocomplete>
+            <FormGroup row>
+              <Button style={{backgroundColor: '#5245c2'}}>Get Estimate</Button>
+              <Button className="ml-1" onClick={this.clearForm}>Clear</Button>
+            </FormGroup>
+          </Form>
         </div>
       )
     } else {
@@ -103,7 +147,7 @@ class Search extends React.Component {
 
 const PlacesInput = ( props ) => {
 
-  console.log(props)
+  console.debug(props)
   const {getInputProps, suggestions, getSuggestionItemProps, loading,
       placeholder, name, id} = props;
 
