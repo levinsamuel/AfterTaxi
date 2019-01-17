@@ -1,0 +1,28 @@
+{
+  "name": "aftertaxi",
+  "version": "1.0.0",
+  "description": "AfterTaxi combined project",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "fe": "cd frontend && npm start",
+    "be": "cd backend && npm start",
+    "start": "run-p be fe"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/levinsamuel/AfterTaxi.git"
+  },
+  "keywords": [
+    "node",
+    "React"
+  ],
+  "author": "Sam Levin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/levinsamuel/AfterTaxi/issues"
+  },
+  "homepage": "https://github.com/levinsamuel/AfterTaxi#readme",
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}
