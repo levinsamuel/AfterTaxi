@@ -1,9 +1,7 @@
 import React from 'react';
-import {Navbar, NavbarBrand, Jumbotron, Nav, NavItem, NavbarToggler,
-    Collapse, Button, Modal, ModalHeader, ModalBody, Form, FormGroup,
-    Input, Label} from 'reactstrap';
-import {NavLink} from 'react-router-dom';
-import PropTypes from 'prop-types'
+import { Jumbotron} from 'reactstrap';
+// import {NavLink} from 'react-router-dom';
+// import PropTypes from 'prop-types'
 
 class Header extends React.Component {
   render () {
@@ -11,9 +9,7 @@ class Header extends React.Component {
       <Jumbotron>
         <div className="container">
           <div className="row row-header">
-            <div className="col-12 col-sm-6">
-              <h3>AfterTaxi</h3>
-            </div>
+            <h3>AfterTaxi</h3>
           </div>
         </div>
       </Jumbotron>
