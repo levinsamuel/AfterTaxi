@@ -28,5 +28,7 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "x-homepage":"http://awssomething",
+  "proxy": "http://localhost:3001/"
 }

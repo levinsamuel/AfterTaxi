@@ -78,7 +78,7 @@ class Search extends React.Component {
 
       const qstring = `start_lat=${latStart}&start_lng=${lngStart}&` +
           `end_lat=${latEnd}&end_lng=${lngEnd}`;
-      fetch('http://localhost:3001/priceest?' + qstring, {
+      fetch('priceest?' + qstring, {
         method: 'GET'
       })
       .then(res => res.json())
