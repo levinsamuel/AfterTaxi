@@ -289,7 +289,7 @@ const PlacesInput = ( props ) => {
         })}
       </div>
     </>
-)
+  )
 }
 
 export default Search;
